@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="color-scheme" content="light dark" />
+    <style>
+      :root {
+        --bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        --fg: #f1f5f9;
+        --muted: #94a3b8;
+        --brand: #7c3aed;
+        --brand-gradient: linear-gradient(135deg, #7c3aed 0%, #c026d3 100%);
+        --card: rgba(30, 41, 59, 0.8);
+        --border: rgba(100, 116, 139, 0.3);
+        --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        --radius: 16px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: linear-gradient(135deg, #0b1220 0%, #1e1b4b 100%);
+          --fg: #f8fafc;
+          --muted: #cbd5e1;
+          --card: rgba(15, 23, 42, 0.9);
+          --border: rgba(148, 163, 184, 0.2);
+        }
+      }
+      
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      
+      body {
+        width: 380px;
+        margin: 0;
+        font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--fg);
+        overflow: hidden;
+      }
+
+      /* Header with logo + details */
+      .header {
+        padding: 20px 24px 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        background: var(--card);
+        border-bottom: 1px solid var(--border);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--brand-gradient);
+      }
+      
+      .logo-container {
+        position: relative;
+        margin-bottom: 12px;
+      }
+      
+      .avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        border: 3px solid transparent;
+        background: linear-gradient(var(--card), var(--card)) padding-box,
+                    var(--brand-gradient) border-box;
+        object-fit: cover;
+        box-shadow: var(--shadow);
+      }
+      
+      .logo-badge {
+        position: absolute;
+        bottom: -4px;
+        right: -4px;
+        background: var(--brand-gradient);
+        color: white;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+        border: 2px solid var(--card);
+      }
+      
+      .title {
+        margin: 0;
+        font-weight: 800;
+        font-size: 20px;
+        line-height: 1.2;
+        background: var(--brand-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        letter-spacing: -0.02em;
+      }
+      
+      .subtitle {
+        margin: 4px 0 0;
+        font-size: 13px;
+        color: var(--muted);
+        max-width: 280px;
+        line-height: 1.4;
+      }
+
+      /* Main container */
+      .container {
+        padding: 24px;
+      }
+      
+      .card {
+        background: var(--card);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        padding: 24px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(10px);
+      }
+      
+      .card-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+        font-weight: 600;
+        font-size: 16px;
+        color: var(--fg);
+      }
+      
+      .card-title-icon {
+        background: var(--brand-gradient);
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+      }
+
+      /* Button styles */
+      .button-container {
+        position: relative;
+        margin-top: 8px;
+      }
+      
+      button {
+        width: 100%;
+        padding: 16px 24px;
+        background: var(--brand-gradient);
+        color: #fff;
+        border: 0;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        letter-spacing: 0.02em;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+      }
+      
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(124, 58, 237, 0.4);
+      }
+      
+      button:active {
+        transform: translateY(0);
+      }
+      
+      button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: 0 4px 15px rgba(124, 58, 237, 0.2);
+      }
+      
+      button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.7s ease;
+      }
+      
+      button:hover::before {
+        left: 100%;
+      }
+      
+      .button-icon {
+        font-size: 18px;
+      }
+
+      /* Status box */
+      .status-box {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        font-size: 14px;
+        color: var(--muted);
+        padding: 12px;
+        background: rgba(30, 41, 59, 0.5);
+        border-radius: 10px;
+        border: 1px solid var(--border);
+      }
+      
+      .spinner {
+        width: 18px;
+        height: 18px;
+        border: 3px solid rgba(124, 58, 237, 0.2);
+        border-top: 3px solid var(--brand);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        display: none;
+      }
+      
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      
+      .pulse {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #10b981;
+        margin-right: 8px;
+        animation: pulse 2s infinite;
+      }
+      
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+        }
+      }
+
+      /* Footer with site link */
+      .footer {
+        margin: 0;
+        padding: 16px 24px;
+        border-top: 1px solid var(--border);
+        background: var(--card);
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      
+      .footer a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.2s ease;
+        font-weight: 500;
+      }
+      
+      .footer a:hover {
+        color: var(--brand);
+        text-decoration: underline;
+      }
+      
+      .badge {
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: var(--brand-gradient);
+        color: white;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+      
+      .brand-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      .extension-name {
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--fg);
+      }
+      
+      .github-link {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      
+      .github-icon {
+        font-size: 16px;
+      }
+      
+      /* Feature highlights */
+      .features {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      
+      .feature {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--muted);
+        background: rgba(30, 41, 59, 0.5);
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+      }
+      
+      .feature-icon {
+        color: var(--brand);
+        font-size: 14px;
+      }
+      
+      /* Record indicator */
+      .record-indicator {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        margin-top: 16px;
+        animation: fadeIn 0.5s ease;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
+      .record-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #ef4444;
+        margin-right: 8px;
+        animation: blink 1.5s infinite;
+      }
+      
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-container">
+        <img src="images/icon128.png" alt="Click2HAR Logo" class="avatar">
+        <div class="logo-badge">HAR</div>
+      </div>
+      <h1 class="title">Click2HAR</h1>
+      <p class="subtitle">One-click HAR capture tool for network analysis</p>
+    </header>
+
+    <!-- Main action -->
+    <div class="container">
+      <div class="card">
+        <div class="card-title">
+          <div class="card-title-icon">📊</div>
+          <span>Network Recording</span>
+        </div>
+        
+        <div class="button-container">
+          <button id="startBtn">
+            <span class="button-icon">⏺️</span>
+            <span>Record &amp; Download HAR</span>
+          </button>
+        </div>
+        
+        <div id="recordIndicator" class="record-indicator">
+          <div class="record-dot"></div>
+          <span style="font-size: 13px; color: #ef4444; font-weight: 600;">Recording network activity...</span>
+        </div>
+        
+        <div class="status-box">
+          <div class="spinner" id="spinner"></div>
+          <span class="pulse"></span>
+          <span id="status">Ready to record</span>
+        </div>
+        
+        <div class="features">
+          <div class="feature">
+            <span class="feature-icon">⚡</span>
+            <span>Fast Capture</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">🔒</span>
+            <span>Secure</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">📥</span>
+            <span>Auto Download</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">🔄</span>
+            <span>Real-time</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer with your site -->
+    <footer class="footer">
+      <div class="brand-row">
+        <div class="badge">v1.0</div>
+        <div class="extension-name">Click2HAR</div>
+      </div>
+      <div>
+        <a
+          href="https://github.com/jatin009v/Auto-HAR-Capture-Tool-Click2HAR"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="github-link"
+        >
+          <span class="github-icon">🔗</span>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </footer>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
